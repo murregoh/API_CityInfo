@@ -4,19 +4,47 @@ using CitiesInfo.DataStorage;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.Extensions.Logging;
+using System;
+using CitiesInfo.Services;
 
 namespace CitiesInfo.Controllers
 {
     [Route("api/cities")]
     public class PointOfInterestController : Controller
     {
+        private ILogger<PointOfInterestController> _logger;
+        private LocalMailService _mailService;
+
+        public PointOfInterestController(ILogger<PointOfInterestController> logger, LocalMailService mailService)
+        {
+            _logger = logger;
+            _mailService = mailService;
+        }
+
         [HttpGet("{cityId}/pointsofinterest")]
         public IActionResult GetPointsOfInterest(int cityId)
         {
 
-            ICollection<PointOfInterestDto> pointsofinterest = CityDataStorage.Currect.Cities.FirstOrDefault(c => c.id == cityId).pointofinterestdto;
+            try
+            {
+                CityDto city = CityDataStorage.Currect.Cities.FirstOrDefault(c => c.id == cityId);
 
-            return Ok(pointsofinterest);
+                if (city == null)
+                {
+                    _logger.LogInformation($"City with id {cityId} wasn't found when accesing points of interest.");
+                    return NotFound();
+                }
+
+                ICollection<PointOfInterestDto> pointsofinterest = city.pointofinterestdto;
+
+                return Ok(pointsofinterest);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"Exception while getting points of interest for city with id {cityId}.", ex);
+                return StatusCode(500, "A problem happend while handling your request.");
+            }
 
         }
 
@@ -160,6 +188,8 @@ namespace CitiesInfo.Controllers
             }
 
             city.pointofinterestdto.Remove(pointOfInterest);
+
+            _mailService.Send("Point of interest has been removed", $"The point of interest {pointOfInterest.name} with id {pointOfInterest.id} has been removed.");
 
             return NoContent();
         }
