@@ -6,6 +6,7 @@
 [Bb]in/
 packages/
 TestResults/
+Logs/
 
 
 # globs
@@ -41,6 +42,3 @@ Thumbs.db
 
 # dotCover
 *.dotCover
-
-# Logs
-*.log
