@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
 using System;
-using CitiesInfo.Services;
+using CitiesInfo.Interfaces;
 
 namespace CitiesInfo.Controllers
 {
@@ -14,9 +14,9 @@ namespace CitiesInfo.Controllers
     public class PointOfInterestController : Controller
     {
         private ILogger<PointOfInterestController> _logger;
-        private LocalMailService _mailService;
+        private IMailService _mailService;
 
-        public PointOfInterestController(ILogger<PointOfInterestController> logger, LocalMailService mailService)
+        public PointOfInterestController(ILogger<PointOfInterestController> logger, IMailService mailService)
         {
             _logger = logger;
             _mailService = mailService;

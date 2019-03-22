@@ -6,7 +6,7 @@
 [Bb]in/
 packages/
 TestResults/
-Logs/
+
 
 # globs
 Makefile.in
@@ -30,6 +30,7 @@ test-results/
 Thumbs.db
 .vs/
 
+
 # Mac bundle stuff
 *.dmg
 *.app
@@ -40,3 +41,6 @@ Thumbs.db
 
 # dotCover
 *.dotCover
+
+# Logs
+*.log
