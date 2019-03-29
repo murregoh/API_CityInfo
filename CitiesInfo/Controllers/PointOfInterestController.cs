@@ -192,6 +192,7 @@ namespace CitiesInfo.Controllers
             _mailService.Send("Point of interest has been removed", $"The point of interest {pointOfInterestEntity.name} with id {pointOfInterestEntity.id} has been removed.");
 
             return NoContent();
+            //return NoContent();
         }
 
     }
