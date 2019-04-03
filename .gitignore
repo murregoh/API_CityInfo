@@ -1,12 +1,7 @@
 # Autosave files
 *~
 
-# build
-[Oo]bj/
-[Bb]in/
-packages/
-TestResults/
-Logs/
+
 
 
 # globs
